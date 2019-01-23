@@ -13,13 +13,12 @@ if($_POST['password']==$_POST['password_again']){
     $user_data=mysqli_query($con, $sql);
     $user_data=mysqli_fetch_all($user_data,MYSQLI_ASSOC);
     if($user_data){
-        echo "1";
         $_SESSION['valid']=0;
         $_SESSION['invalid_text']="Vartotojo vardas toks jau yra";
+        $con->close();
         header('Location: register.php');
         die();
     }else{
-        echo "2";
         $password_hash=password_hash($_POST['password'], PASSWORD_DEFAULT);
         $sql="INSERT INTO users (user_name,password_hash,share_list) VALUES ('".$_POST['user_name']."','".$password_hash."',1)";
         $con->query($sql);
@@ -28,7 +27,6 @@ if($_POST['password']==$_POST['password_again']){
         die();
     }
 }else{
-    echo "3";
     $_SESSION['valid']=0;
     $_SESSION['invalid_text']="Slaptažodis nesutapo";
     header('Location: register.php');
