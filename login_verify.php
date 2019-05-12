@@ -3,10 +3,10 @@ session_start();
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "baigiamasis";
+$dbname = "geopostit";
 $con = new mysqli($servername, $username, $password, $dbname);
 if ($con->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $con->connect_error);
 } 
 $sql="SELECT user_name,password_hash FROM users WHERE user_name='".$_POST['user_name']."'";
 $user_data=mysqli_query($con, $sql);

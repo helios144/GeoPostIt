@@ -1,0 +1,28 @@
+ErrorDocument 404 /page-404.php
+RewriteEngine  on
+#RewriteBase /sawsomethinginteresting/
+#RewriteRule ^/post/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ index.php?title=$2&report_id=$1
+#RewriteCond %{REQUEST_URL} =^post/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$
+#RewriteCond %{REQUEST_URI} !^/post/ "page-404.php"
+#RewriteRule ^/post/ - [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteCond %{REQUEST_URI} post/
+
+RewriteRule ^post/([a-zA-Z0-9_-]+)|(/([a-zA-Z0-9_-]+))$ app.php?report_id=$1
+RewriteRule ^posts$ app.php
+RewriteCond %{HTTPS} off
+RewriteRule (.*) https://%{SERVER_NAME}/$1 [R,L]
+#RewriteRule  ^index.php$ login.php
+#RewriteCond %{HTTPS} !=on
+#RewriteRule ^/?post/(.*) https://%{SERVER_NAME}/post$1[R,L]
+##RewriteCond %{SERVER_PORT} 80
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+#RewriteCond %{HTTPS} !=on 
+#RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R=301,L]
+#RewriteCond %{HTTPS} !=on
+#RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+#RewriteCond %{HTTPS} !=on
+#RewriteRule ^/?(.*) https://localhost
+#FallbackResource /index.php

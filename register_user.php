@@ -4,7 +4,7 @@ if($_POST['password']==$_POST['password_again']){
     $servername = "localhost";
     $username = "root";
     $password = "";
-    $dbname = "baigiamasis";
+    $dbname = "geopostit";
     $con = new mysqli($servername, $username, $password, $dbname);
     if ($con->connect_error) {
         die("Connection failed: " . $conn->connect_error);

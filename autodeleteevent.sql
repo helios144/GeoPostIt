@@ -1,0 +1,6 @@
+SET GLOBAL event_scheduler = ON
+CREATE deleteposts EVENT ON 
+SCHEDULE EVERY 1 DAY
+STARTS '2019-01-1 00:00:01'
+DO
+DELETE FROM reports WHERE DATEDIFF( NOW( ) ,  delete_data ) >=0;
