@@ -1,6 +1,14 @@
 /*
-ši funkcija naudoja jquery v3.3.1
-ir bootstrao v3.3.7 glyphiconus
+this funkction uses jquery v3.3.1
+and bootstrap v3.3.7 glyphicons
+also add this for spinner animation to work fo your css:
+
+      @-webkit-keyframes spinner-border {
+        to {
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
 */
 function toast(toastObj){
     if(typeof toastObj === 'string' || toastObj instanceof String){
@@ -46,7 +54,7 @@ function toast(toastObj){
           positionClass="middle-toast";
         break;
         default:
-          position="bottom: 40px;";
+          position="bottom: 80px;";
           positionClass="bottom-toast";
       }
       if(loadingSpinner==true){   

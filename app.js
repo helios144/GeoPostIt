@@ -1,12 +1,14 @@
 var map,markers=[],info,myLocationMarker,zoomLevel=15,onceOpened=false;
 var infowindow,createPostMarker;
-var createPostInfoWindow;  
+var createPostInfoWindow;
+var bounds={};  
 
 //core functions
 function init(){
+    console.log(urlData);
 map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 54.72247035, lng: 25.33771767051836},
-    zoom: 20,
+    zoom: 12,
     //streetView: new google.maps.StreetViewPanorama(document.getElementById("street-view")),
     controls: {
     scrollwheel: true,
@@ -24,26 +26,15 @@ var panorama = new google.maps.StreetViewPanorama(
     });
     map.setStreetView(panorama);
 map.addListener('tilesloaded', (e)=> {
-    var bounds={
-    NElat:map.getBounds().getNorthEast().lat(),
-    NElng:map.getBounds().getNorthEast().lng(),
-    SWlat:map.getBounds().getSouthWest().lat(),
-    SWlng:map.getBounds().getSouthWest().lng() 
-    };
     if(urlData.report_id!=undefined && urlData.report_id!=null){
     bounds["report_id"]=parseInt(urlData.report_id);
     }
-    loadMarkers(bounds);
+    loadMarkers();
     google.maps.event.clearListeners(map,'tilesloaded');
     google.maps.event.addListener(map, 'bounds_changed', ()=> {
     map.addListener('idle', (e)=> {
-    var bounds={
-    NElat:map.getBounds().getNorthEast().lat(),
-    NElng:map.getBounds().getNorthEast().lng(),
-    SWlat:map.getBounds().getSouthWest().lat(),
-    SWlng:map.getBounds().getSouthWest().lng()
-    };
-    loadMarkers(bounds);
+
+    loadMarkers();
     google.maps.event.clearListeners(map,'idle');
     });
     
@@ -52,13 +43,26 @@ map.addListener('tilesloaded', (e)=> {
     addYourLocationButton(map);
     addCreatePostButton(map);
 }
-function loadMarkers(bounds){
+function loadMarkers(){
 toast({
     loadingSpinner:true,
     spinnerPosition:'spinner-only',
     id:"markers",
     autoRemove:false
 });
+bounds={
+    NElat:map.getBounds().getNorthEast().lat(),
+    NElng:map.getBounds().getNorthEast().lng(),
+    SWlat:map.getBounds().getSouthWest().lat(),
+    SWlng:map.getBounds().getSouthWest().lng()
+};
+if(urlData.category!=undefined && urlData.category!=null){
+    bounds["category"]=urlData.category;
+}
+if(urlData.search_query!=undefined && urlData.search_query!=null){
+    bounds["search_query"]=urlData.search_query;
+}
+console.log(bounds);
 $.ajax({
 method:"post",
 dataType: "json" ,
@@ -72,6 +76,7 @@ dataType: "json" ,
         position:'middle',
         duration:3000
         });
+        toast("markers");
     }else{
         $.each(data,(i,report_data)=>{
             if(!markers[report_data.report_id]){
@@ -140,7 +145,7 @@ dataType: "json" ,
 }      
 function myPos(toZoom){
     if(toZoom==null||toZoom==undefined)toZoom==false;
-    var errInfo = new google.maps.InfoWindow;
+    //var errInfo = new google.maps.InfoWindow;
     if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((position)=> {
     var   myPos = {
@@ -336,11 +341,12 @@ function addCreatePostButton (map){
                   });
             createPostMarker.addListener('click',()=>{
               if(createPostInfoWindow==null||createPostInfoWindow==undefined){
-                var content='<form method="post" id="post-form" class="container" style="max-width:400px" ><div class="row" style="margin-bottom:5px;"><h3 class="col-12">Make new post</h3></div><div class="row"><div class="col-12"><label>Title</label><input type="text" class="form-control" name="title"></input></div></div><div class="row"><div class="col-12"><label>Comment</label><textarea class="form-control"  name="comment"></textarea></div></div><div class="row"><div class="col-12"><label>Photo(optional)</label><input type="file" class="form-control" name="photo" accept="image/*"></div></div><div class="row"><div class="col-12"><label>Latitude</label><input type="text" name="latitude" class="form-control" value="'+createPostMarker.getPosition().lat()+'"></input></div></div><div class="row"><div class="col-12"><label>Longitude</label><input type="text" class="form-control" name="longitude" value="'+createPostMarker.getPosition().lng()+'"></input></div></div><div class="row"><div class="col-12"><label>Share options</label><select class="form-control" name="share-option"><option value="1" selected>Everyone</option><option value="0">Only me</option></select></div></div><div class="row"><div class="col-12"><label> Post life span</label><select class="form-control" name="life-span"><option value="1" selected>1 day</option><option value="2">2 days</option><option value="3">3 day</option><option value="7">1 Week</option></select></div></div><div class="row"><div class="col-12"><button  type="button" id="btn-new-post" class="btn btn-success" style="float:left;" >Post it</button><button type="button" id="btn-cancel-new-post" class="btn btn-danger" style="float:right;" >Cancel</button></div></div></div></form>';
+                var content='<form method="post" id="post-form" class="container" style="max-width:400px" ><div class="row" style="margin-bottom:5px;"><h3 class="col-12">Make new post</h3></div><div class="row"><div class="col-12"><label>Title<span style="color:red;">*</span></label><input type="text" class="form-control" name="title"></input></div></div><div class="row"><div class="col-12"><label>Comment</label><textarea class="form-control"  name="comment"></textarea></div></div><div class="row"><div class="col-12"><label>Photo(optional)</label><input type="file" class="form-control" name="photo" accept="image/*"></div></div><div class="row"><div class="col-12"><label>Latitude<span style="color:red;">*</span></label><input type="text" name="latitude" class="form-control" value="'+createPostMarker.getPosition().lat()+'"></input></div></div><div class="row"><div class="col-12"><label>Longitude<span style="color:red;">*</span></label><input type="text" class="form-control" name="longitude" value="'+createPostMarker.getPosition().lng()+'"></input></div></div><div class="row"><div class="col-12"><label>Share options<span style="color:red;">*</span></label><select class="form-control" name="share-option"><option value="1" selected>Everyone</option><option value="0">Only me</option></select></div></div><div class="row"><div class="col-12"><label> Post life span<span style="color:red;">*</span></label><select class="form-control" name="life-span"><option value="1" selected>1 day</option><option value="2">2 days</option><option value="3">3 day</option><option value="7">1 Week</option></select></div></div><div class="row"><div class="col-12"><button  type="button" id="btn-new-post" class="btn btn-success" style="float:left;" >Post it</button><button type="button" id="btn-cancel-new-post" class="btn btn-danger" style="float:right;" >Cancel</button></div></div><div class="row"><div class="col-12" style="color:grey"><span style="color:red">*</span>- required</div></div></form>';
                 createPostInfoWindow=new google.maps.InfoWindow({
                     content:content
                 });
-                google.maps.event.addListener(createPostInfoWindow,'closeclick',()=>{
+                google.maps.event.addListener(createPostInfoWindow,'closeclick',function(){
+                    createPostInfoWindow.close();
                   map.addListener('center_changed',()=>{
                           createPostMarker.setPosition(map.getCenter());
                   });

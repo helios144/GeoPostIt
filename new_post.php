@@ -8,7 +8,10 @@ $response=[];
 $imageName;
 $valid_image_types=['png'=>'image/png','jpg'=>'image/jpg','jpeg'=>'jpeg'];
 if(isset($_SESSION['user_data'])){
-    if(isset($_POST)){
+    if($_POST['title']!=null&&$_POST['latitude']!=null&&$_POST['longitude']!=null&&$_POST['life-span']!=null&&$_POST['share-option']!=null){
+        print_r("all not null");
+        echo $title;
+        die();
         if(isset($_FILES["image"])){
             if($_FILES["image"]["error"] == 0){
                 $file_extention=pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
@@ -94,7 +97,7 @@ if($response_status==0){
 }else{
     switch($response_status){
         case 1:
-            $response_message= "No data";
+            $response_message= "Please fill in all required fields";
         break;   
         case 3:
             $response_message= "Invalid image upload";

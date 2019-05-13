@@ -1,19 +1,34 @@
 ErrorDocument 404 /page-404.php
-RewriteEngine  on
+
 #RewriteBase /sawsomethinginteresting/
 #RewriteRule ^/post/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ index.php?title=$2&report_id=$1
 #RewriteCond %{REQUEST_URL} =^post/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$
 #RewriteCond %{REQUEST_URI} !^/post/ "page-404.php"
 #RewriteRule ^/post/ - [L]
-
+RewriteEngine  on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteCond %{REQUEST_URI} post/
-
 RewriteRule ^post/([a-zA-Z0-9_-]+)|(/([a-zA-Z0-9_-]+))$ app.php?report_id=$1
 RewriteRule ^posts$ app.php
-RewriteCond %{HTTPS} off
-RewriteRule (.*) https://%{SERVER_NAME}/$1 [R,L]
+RewriteRule ^login$ login.php
+RewriteRule ^register$ register.php
+
+
+
+
+#RewriteRule ^posts/(query|category|city)/([a-zA-Z0-9_-]+)|(/([a-zA-Z0-9_-]+))/(query|category|city)/([a-zA-Z0-9_-]+)|(/([a-zA-Z0-9_-]+))$ app.php?$1=$2&$3=$4
+#RewriteRule ^posts/([a-zA-Z0-9_-]+)|(/([a-zA-Z0-9_-]+))/([a-zA-Z0-9_-]+)|(/([a-zA-Z0-9_-]+))/([a-zA-Z0-9_-]+)|(/([a-zA-Z0-9_-]+))/([a-zA-Z0-9_-]+)|(/([a-zA-Z0-9_-]+))$ app.php?$1=$2&$3=$4
+#RewriteRule ^posts/([a-zA-Z0-9_-]+)|(/([a-zA-Z0-9_-]+))/([a-zA-Z0-9_-]+)|(/([a-zA-Z0-9_-]+))/([a-zA-Z0-9_-]+)|(/([a-zA-Z0-9_-]+))/([a-zA-Z0-9_-]+)|(/([a-zA-Z0-9_-]+))/([a-zA-Z0-9_-]+)|(/([a-zA-Z0-9_-]+))/([a-zA-Z0-9_-]+)|(/([a-zA-Z0-9_-]+))$ app.php?$1=$2&$3=$4&$5=$6
+#RewriteRule ^posts/city/([a-zA-Z0-9_-]+)/category/([a-zA-Z0-9_-]+)$ app.php?city=$1&category=$2
+#RewriteRule ^posts/city/([a-zA-Z0-9_-]+)/query/([a-zA-Z0-9_-]+)$ app.php?city=$1&query=$2
+#RewriteRule ^posts/category/([a-zA-Z0-9_-]+)/query/([a-zA-Z0-9_-]+)$ app.php?category=$1&query=$2
+#RewriteRule ^posts/city/([a-zA-Z0-9_-]+)|(/([a-zA-Z0-9_-]+))/category/([a-zA-Z0-9_-]+)/query/([a-zA-Z0-9_-]+)$ app.php?city=$1&category=$2&query=$3
+#FallbackResource /
+
+
+
+
+
 #RewriteRule  ^index.php$ login.php
 #RewriteCond %{HTTPS} !=on
 #RewriteRule ^/?post/(.*) https://%{SERVER_NAME}/post$1[R,L]
