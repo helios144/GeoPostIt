@@ -8,10 +8,11 @@ ErrorDocument 404 /page-404.php
 RewriteEngine  on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^post/([a-zA-Z0-9_-]+)|(/([a-zA-Z0-9_-]+))$ app.php?report_id=$1
+RewriteRule ^post/([a-zA-Z0-9_-]+)|(/([a-zA-Z0-9_-]+))$ app.php?post_id=$1
 RewriteRule ^posts$ app.php
 RewriteRule ^login$ login.php
 RewriteRule ^register$ register.php
+RewriteRule ^logout$ logout.php
 
 
 

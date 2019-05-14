@@ -123,7 +123,7 @@ function toast(toastObj){
       }
       if(dim==true && $('body').children('#dim-screen').length==0){
         //$('<div id="dim-screen"></div>').before('#toasts');
-        $('body').prepend('<div id="dim-screen"></div>');
+        $('body').prepend('<div id="dim-screen" style="width:100%;height:100%;left:0;right:0;position:fixed;background-color:black;opacity:0.7;"></div>');
       }
       fullToast = ' <div class="toast '+positionClass+'" id="toast-'+toastIndex+'" style="pointer-events:none;   width:100%; min-height: ' + height + '; position:fixed;display: none; z-index:9999;font-size: '+fontSize+'; ' + position + ';left: 0; text-align: center;">';
       fullToast += '<div  style="min-width: ' + width + ';min-height: ' + height + ';display: inline-block; padding: 5px 15px;background-color: ' + fullBgColor + ';border-radius:'+borderRadius+';color: rgb(' + textColor + ');">' + text + '</div></div>';

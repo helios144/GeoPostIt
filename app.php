@@ -22,23 +22,26 @@
     <script src="/jquery.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/style.css">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ-Qxu9ZZ4ODH2UP8mDsls2olKychnmdc&callback=init"
-    async defer></script>
+
     <script src="/toastmsg.js"></script> 
              <script>
+             //80
       var urlData=<?php 
                   if(isset($_GET)){
                 echo json_encode($_GET);
               };?>;
+            console.log(urlData);
     </script> 
   </head>
     <body>
     <?php
       include_once("navbar.php");
     ?>
-      
-      <div id="map"></div>
       <div id="street-view"></div>
+      <div id="map"></div>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ-Qxu9ZZ4ODH2UP8mDsls2olKychnmdc&callback=init"
+    async defer></script>
       <script src="/app.js"></script>  
   </body>
 </html>
+
