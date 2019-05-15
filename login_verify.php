@@ -1,16 +1,13 @@
 <?php
 session_start();
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "geopostit";
+require('database_credentials.php');
 $con = new mysqli($servername, $username, $password, $dbname);
 if ($con->connect_error) {
     die("Connection failed: " . $con->connect_error);
 } 
 $sql="SELECT user_name,password_hash FROM users WHERE user_name='".$_POST['user_name']."'";
 $user_data=mysqli_query($con, $sql);
-if($user_data){
+if($user_data->num_rows>0){
     $user_data=mysqli_fetch_all($user_data,MYSQLI_ASSOC);
     if(password_verify($_POST['password'],$user_data[0]['password_hash']) && $_POST['user_name']==$user_data[0]['user_name']) {
         $sql="SELECT user_id,user_name,share_list FROM users WHERE user_name='".$_POST['user_name']."'";

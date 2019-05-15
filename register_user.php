@@ -2,10 +2,7 @@
 session_start();
 if(strlen($_POST['password'])>0&& strlen($_POST['password_again'])&& strlen($_POST['user_name'])>0){
 if($_POST['password']==$_POST['password_again']&&strlen($_POST['password'])>0){
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "geopostit";
+    require('database_credentials.php');
     $con = new mysqli($servername, $username, $password, $dbname);
     if ($con->connect_error) {
         die("Connection failed: " . $conn->connect_error);

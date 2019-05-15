@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+- phpMyAdmin XML Dump
+- version 4.7.4
+- https://www.phpmyadmin.net
+-
+- Host: 127.0.0.1
+- Generation Time: May 15, 2019 at 07:15 PM
+- Server version: 10.1.26-MariaDB
+- PHP Version: 7.1.9
+-->
+
+<pma_xml_export version="1.0" xmlns:pma="https://www.phpmyadmin.net/some_doc_url/">
+    <!--
+    - Structure schemas
+    -->
+    <pma:structure_schemas>
+        <pma:database name="geopostit" collation="latin1_swedish_ci" charset="latin1">
+            <pma:table name="categories">
+                CREATE TABLE `categories` (
+                  `category_id` int(11) NOT NULL AUTO_INCREMENT,
+                  `category` varchar(255) NOT NULL,
+                  `icon` varchar(255) NOT NULL,
+                  PRIMARY KEY (`category_id`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="posts">
+                CREATE TABLE `posts` (
+                  `post_id` int(255) NOT NULL AUTO_INCREMENT,
+                  `user_id` int(255) NOT NULL,
+                  `share_option` int(255) NOT NULL,
+                  `latitude` double NOT NULL,
+                  `longitude` double NOT NULL,
+                  `title` varchar(500) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+                  `comment` varchar(5000) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+                  `image` varchar(3000) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+                  `category` varchar(255) NOT NULL,
+                  `post_creation_date` datetime NOT NULL,
+                  `delete_date` datetime NOT NULL,
+                  PRIMARY KEY (`post_id`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="users">
+                CREATE TABLE `users` (
+                  `user_id` int(255) NOT NULL AUTO_INCREMENT,
+                  `user_name` varchar(255) NOT NULL,
+                  `password_hash` varchar(2000) NOT NULL,
+                  `share_list` text NOT NULL,
+                  PRIMARY KEY (`user_id`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+            </pma:table>
+        </pma:database>
+    </pma:structure_schemas>
+
+    <!--
+    - Database: 'geopostit'
+    -->
+    <database name="geopostit">
+        <!-- Table categories -->
+        <table name="categories">
+            <column name="category_id">1</column>
+            <column name="category">all</column>
+            <column name="icon">glyphicon glyphicon-globe</column>
+        </table>
+        <table name="categories">
+            <column name="category_id">2</column>
+            <column name="category">general</column>
+            <column name="icon">glyphicon glyphicon-asterisk</column>
+        </table>
+        <table name="categories">
+            <column name="category_id">3</column>
+            <column name="category">events</column>
+            <column name="icon">glyphicon glyphicon-calendar</column>
+        </table>
+        <table name="categories">
+            <column name="category_id">4</column>
+            <column name="category">fun</column>
+            <column name="icon">glyphicon glyphicon-glass</column>
+        </table>
+        <table name="categories">
+            <column name="category_id">5</column>
+            <column name="category">interesting</column>
+            <column name="icon">glyphicon glyphicon-eye-open</column>
+        </table>
+        <table name="categories">
+            <column name="category_id">6</column>
+            <column name="category">sightseeing</column>
+            <column name="icon">glyphicon glyphicon-tree-deciduous</column>
+        </table>
+        <table name="categories">
+            <column name="category_id">7</column>
+            <column name="category">incident</column>
+            <column name="icon">glyphicon glyphicon-warning-sign</column>
+        </table>
+        <!-- Table posts -->
+        <table name="posts">
+            <column name="post_id">1</column>
+            <column name="user_id">1</column>
+            <column name="share_option">0</column>
+            <column name="latitude">54.686519</column>
+            <column name="longitude">25.290327</column>
+            <column name="title">Gedimino pilis</column>
+            <column name="comment">pilis</column>
+            <column name="image">img1.jpg</column>
+            <column name="category">general</column>
+            <column name="post_creation_date">2019-05-01 00:00:00</column>
+            <column name="delete_date">0000-00-00 00:00:00</column>
+        </table>
+        <table name="posts">
+            <column name="post_id">2</column>
+            <column name="user_id">1</column>
+            <column name="share_option">1</column>
+            <column name="latitude">54.685577</column>
+            <column name="longitude">25.286563</column>
+            <column name="title">Katedra
+</column>
+            <column name="comment">KATEDRA</column>
+            <column name="image">img1.jpg</column>
+            <column name="category">general</column>
+            <column name="post_creation_date">2019-04-09 00:00:00</column>
+            <column name="delete_date">0000-00-00 00:00:00</column>
+        </table>
+        <table name="posts">
+            <column name="post_id">3</column>
+            <column name="user_id">1</column>
+            <column name="share_option">1</column>
+            <column name="latitude">54.726444</column>
+            <column name="longitude">25.329961</column>
+            <column name="title">VGTU biblioteka</column>
+            <column name="comment">Atėjo daug žmonių pasimokyti</column>
+            <column name="image">img2.jpg</column>
+            <column name="category">general</column>
+            <column name="post_creation_date">2019-05-01 00:00:00</column>
+            <column name="delete_date">0000-00-00 00:00:00</column>
+        </table>
+        <table name="posts">
+            <column name="post_id">5</column>
+            <column name="user_id">4</column>
+            <column name="share_option">1</column>
+            <column name="latitude">54.733486</column>
+            <column name="longitude">25.226464</column>
+            <column name="title">Pašilaičių miškelis</column>
+            <column name="comment">Pašilaičių miškas kur visi renkasi pasigrožėti gamta</column>
+            <column name="image">img3.jpg</column>
+            <column name="category">general</column>
+            <column name="post_creation_date">2019-02-01 00:00:00</column>
+            <column name="delete_date">2119-04-20 23:00:24</column>
+        </table>
+        <!-- Table users -->
+        <table name="users">
+            <column name="user_id">2</column>
+            <column name="user_name">helios</column>
+            <column name="password_hash">$2y$10$xGi/c/avvhCh.lfQRm6SFOtnVGn0gd0Mf9xCEXySmEU7Jq8X01U72</column>
+            <column name="share_list">1</column>
+        </table>
+        <table name="users">
+            <column name="user_id">3</column>
+            <column name="user_name">admin</column>
+            <column name="password_hash">$2y$10$vY0GhYZCJ9JPVXAnDYYfLulTWXSEO5PPNsgt854tRGvQQuZ4Zrz/O</column>
+            <column name="share_list">1</column>
+        </table>
+        <table name="users">
+            <column name="user_id">4</column>
+            <column name="user_name">helios144</column>
+            <column name="password_hash">$2y$10$qHTqXkWy9ZFZE9LlfLAuR.9F7PLQUgtL87awxdphQziNVP6je27Eq</column>
+            <column name="share_list">1</column>
+        </table>
+    </database>
+</pma_xml_export>

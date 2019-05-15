@@ -101,6 +101,7 @@ dataType: "json" ,
                 });
                 m.addListener('click',()=>{
                 i.open(map,m);
+                zoomLevel=map.getZoom();
                 const tmpPos=reportPos;
                 smoothZoom(map,20,map.getZoom(),'in',tmpPos,0.000285);
                 });
@@ -530,10 +531,7 @@ $(document).on('click','.btn-edit-post',(e)=>{
             }
 
         },
-        error:(xhr, ajaxOptions, thrownError)=>{
-            console.log(xhr);
-            console.log(ajaxOptions);
-            console.log(thrownError);
+        error:()=>{
             toast('edit-load');
             toast({
                 icon:'error',

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Maps</title>
+    <title>Register</title>
     <link rel="icon" type="image/x-icon" href="/faviconn.ico" />
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">

@@ -5,19 +5,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><?php 
-    echo "Žemėlapis";
-   /* if(isset($_GET['title'])){
-      echo str_replace('_',' ',$_GET['title']);
-    }else{
-     echo "Žemėlapis";
-    }*/
-    ?></title>
+    <title>Žemėlapis</title>
     <link rel="icon" type="image/x-icon" href="/faviconn.ico" />
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
     <script src="/jquery.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
@@ -30,7 +22,6 @@
                   if(isset($_GET)){
                 echo json_encode($_GET);
               };?>;
-            console.log(urlData);
     </script> 
   </head>
     <body>

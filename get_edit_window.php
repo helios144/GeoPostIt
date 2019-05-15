@@ -5,10 +5,7 @@ $response_message='';
 $categories='';
 $post_data;
 if(isset($_POST['post_id'])){
-    $servername = 'localhost';
-    $username = 'root';
-    $password = '';
-    $dbname = 'geopostit';
+    require('database_credentials.php');
     $con = new mysqli($servername, $username, $password, $dbname);
     if ($con->connect_error) {
         $status_code=2;
@@ -115,8 +112,6 @@ else{
     $response_message='Error: no data';
 }
 if( $response_status_code==0){
-   /* echo $post_data[0]['date'];
-    die();*/
     echo $content;
 }else{
 $response['status_code']=$response_status_code;

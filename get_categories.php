@@ -3,10 +3,7 @@ $content='';
 $response_status_code=0;
 $response_message='';
 $categories='';
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "geopostit";
+    require('database_credentials.php');
     $con = new mysqli($servername, $username, $password, $dbname);
     if ($con->connect_error) {
         $status_code=1;

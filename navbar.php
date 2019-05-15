@@ -24,10 +24,7 @@
             <select name="category" class="form-control">
               <option value="all" disabled selected>Select category</option>
               <?php
-                  $servername = "localhost";
-                  $username = "root";
-                  $password = "";
-                  $dbname = "geopostit";
+                  require('database_credentials.php');
                   $con = new mysqli($servername, $username, $password, $dbname);
                   if ($con->connect_error) {
                       die('<option value="all">All<i class="glyphicon glyphicon-globe"></></option>');
@@ -36,7 +33,12 @@
                   $cats=mysqli_query($con, $sql);
                   $cats=mysqli_fetch_all($cats,MYSQLI_ASSOC);
                   foreach($cats as $val){
-                    echo '<option value="'.$val['category'].'">'.ucwords($val['category']).'</option>';
+                    if(isset($_GET['category'])){
+                      echo '<option value="'.$val['category'].'"'.(($_GET['category']==$val['category'])?'selected':'').'>'.ucwords($val['category']).'</option>';
+                    }else{
+                      echo '<option value="'.$val['category'].'">'.ucwords($val['category']).'</option>';
+                   
+                    }
                   }
               ?>
             </select>

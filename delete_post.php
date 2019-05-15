@@ -2,16 +2,22 @@
 $status_code=0;
 $response_message='';
     if(isset($_POST['post_id'])){
-        $servername = "localhost";
+      /*  $servername = "localhost";
         $username = "root";
         $password = "";
-        $dbname = "geopostit";
+        $dbname = "geopostit";*/
+        require('database_credentials.php');
         $con = new mysqli($servername, $username, $password, $dbname);
         if ($con->connect_error) {
             //die("Connection failed: " . $con->connect_error);
             $status_code=2;
             $response_message='Error: failed to delete post. Try again later';
         }else{
+            $sql="SELECT image FROM posts WHERE post_id=".$_POST['post_id'];
+            $data=mysqli_query($con, $sql);
+            $data=mysqli_fetch_all($data,MYSQLI_ASSOC);
+            $delfile=$_SERVER['DOCUMENT_ROOT'].'/posts_images/'.$data[0]['image'];
+           if (file_exists($delfile)) { unlink ($delfile); }
             $sql="DELETE FROM posts WHERE post_id=".$_POST['post_id'];
             if ($con->query($sql) === TRUE) {
                 $response_message= 'Post deleted succesfully';

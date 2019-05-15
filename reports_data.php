@@ -1,14 +1,6 @@
 <?php
 session_start();
-/*$servername = "localhost";
-$username = "1159098";
-$password = "xm8au1tab";
-$dbname = "1159098";
-*/
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "geopostit"; 
+require('database_credentials.php');
 $con = new mysqli($servername, $username, $password, $dbname);
 if ($con->connect_error) {
     die("Connection failed: " . $conn->connect_error);

@@ -4,9 +4,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><?php 
-    echo "GeoPost";
-    ?></title>
+    <title>GeoPostIT</title>
     <link rel="icon" type="image/x-icon" href="/faviconn.ico" />
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
@@ -30,10 +28,7 @@
             <select name="category" class="form-control">
               <option value="all" disabled selected>Select category</option>
               <?php
-                  $servername = "localhost";
-                  $username = "root";
-                  $password = "";
-                  $dbname = "geopostit";
+                  require('database_credentials.php');
                   $con = new mysqli($servername, $username, $password, $dbname);
                   if ($con->connect_error) {
                       die('<option value="all">All<i class="glyphicon glyphicon-globe"></></option>');

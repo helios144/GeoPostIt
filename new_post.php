@@ -1,6 +1,6 @@
 <?php
 session_start();
-$img_upload_dir="report_images/";
+$img_upload_dir="posts_images/";
 $uploadStatus=1;
 $response_status_code=0;
 $response_message='';
@@ -15,6 +15,9 @@ if(isset($_SESSION['user_data'])){
                 if(array_key_exists($file_extention,$valid_image_types)){
                     $maximum_image_size=10*1024*1024;
                     if($_FILES["image"]["size"]<=$maximum_image_size){
+                        if(!is_dir($_SERVER['DOCUMENT_ROOT'].'/posts_images')){
+                            mkdir($_SERVER['DOCUMENT_ROOT'].'/posts_images', 0755, true);
+                        }
                         if(!file_exists($img_upload_dir.$_FILES["image"]["name"])){
                             move_uploaded_file($_FILES["image"]["tmp_name"], $img_upload_dir . $_FILES["image"]["name"]);
                             $imageName=$_FILES["image"]["name"];
@@ -47,13 +50,9 @@ $date=$dateTime->format("Y-m-d H:i:s");
 $dateTime->modify(($_POST['life-span']==0)?'+36500 day':'+'.$_POST['life-span'].' day');
 $deleteDate=$dateTime->format("Y-m-d H:i:s");
 if($response_status_code==0){
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "geopostit";
+    require('database_credentials.php');
     $con = new mysqli($servername, $username, $password, $dbname);
     if ($con->connect_error) {
-        //die("Connection failed: " . $con->connect_error);
         $response_status_code=7;
     }else{ 
         $sql="INSERT INTO posts (user_id,share_option,title,comment,latitude,longitude,image,category,post_creation_date,delete_date) VALUES ('".$_SESSION['user_data']['user_id']."','".$_POST['share_option']."','".$_POST['title']."','".$_POST['comment']."','".$_POST['latitude']."','".$_POST['longitude']."','".$imageName."','".$_POST['category']."','".$date."','".$deleteDate."')";
@@ -61,27 +60,19 @@ if($response_status_code==0){
             $response_message= 'Post successfully created';
         }
         else {
-           /* echo $sql ;die();*/
             $response_status_code=8;
             $response_message='Error: Failed to create post. Try again later' ;//'Error: '. $con->error;
         }
         $con->close();
-        //$response_message= 'Post successfully created';
     }
 } else if($response_status_code==2){
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "geopostit";
+    require('database_credentials.php');
     $con = new mysqli($servername, $username, $password, $dbname);
     if ($con->connect_error) {
         //die("Connection failed: " . $con->connect_error);
         $response_status_code=7;
     }else{ 
         $sql="INSERT INTO posts (user_id,share_option,title,comment,latitude,longitude,post_creation_date,delete_date) VALUES ('".$_SESSION['user_data']['user_id']."','".$_POST['share_option']."','".$_POST['title']."','".$_POST['comment']."','".$_POST['latitude']."','".$_POST['longitude']."','".$date."','".$deleteDate."')";
-        /*echo $sql;
-        die();*/
-        //mysqli_query($con, $sql);
         if ($con->query($sql) === TRUE) {
             $response_message= 'Post successfully created';
         }
@@ -164,7 +155,6 @@ else{
         });
     });</script>";
 }
-$_SESSION['response']="<script> $(document).ready(function(){});</script>";
 header('Location: /posts');
 //die();
 ?>
