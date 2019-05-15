@@ -18,7 +18,6 @@
   <?php
       include_once("navbar.php");
     ?>
-  <?php if(isset($_SESSION['valid']))echo $_SESSION['valid']." ".$_SESSION['invalid_text'];?>
     <div class="container home-bg">
         <div style="height:20%;display:inline-block;width:100%"></div>
         <form class="form-group login-register-form" id="login-form" action="/login_verify.php" method="POST" >
@@ -46,7 +45,7 @@
                 
                 <?php
                     if(isset($_SESSION['valid'])){
-                        echo "<div class='row'><div class='col-12'><p>".$_SESSION['invalid_text']."</p></div></div>";
+                        echo "<div class='row'><div class='col-12'><p style='color:red;'>".$_SESSION['invalid_text']."</p></div></div>";
                         unset($_SESSION['valid']);
                         unset($_SESSION['invalid_text']);
                     }

@@ -5,9 +5,11 @@ $response_status_code=0;
 $response_message='';
 $response=[];
 $imageName;
+$redirect=$_POST['redirect'];
+unset($_POST['redirect']);
 $valid_image_types=['png'=>'image/png','jpg'=>'image/jpg','jpeg'=>'jpeg'];
     if(isset($_POST)){
-        if(isset($_FILES["image"])){
+        if(isset($_FILES["image"])&&$_FILES["image"]['size']>0){
             if($_FILES["image"]["error"] == 0){
                 $file_extention=pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
                 if(array_key_exists($file_extention,$valid_image_types)){
@@ -67,7 +69,8 @@ if($response_status_code==0){
         }
         $sql=substr($sql, 0, -1);
         $sql.=" WHERE post_id=".$post_id;
-       // echo $sql;
+       /* echo $sql;
+        die();*/
         if ($con->query($sql) === TRUE) {
             $response_message= 'Post edited successfully';
         }
@@ -80,11 +83,11 @@ if($response_status_code==0){
     }
 } else if($response_status_code==2){
     $dateTime=new DateTime();
-$date=$dateTime->format("Y-m-d H:i:s");
-$dateTime->modify(($_POST['life-span']==0)?'+36500 day':'+'.$_POST['life-span'].' day');
-$deleteDate=$dateTime->format("Y-m-d H:i:s");
-unset($_POST['life-span']);
-$_POST['delete_date']=$deleteDate;
+    $date=$dateTime->format("Y-m-d H:i:s");
+    $dateTime->modify(($_POST['life-span']==0)?'+36500 day':'+'.$_POST['life-span'].' day');
+    $deleteDate=$dateTime->format("Y-m-d H:i:s");
+    unset($_POST['life-span']);
+    $_POST['delete_date']=$deleteDate;
     $servername = "localhost";
     $username = "root";
     $password = "";
@@ -109,7 +112,7 @@ $_POST['delete_date']=$deleteDate;
          $sql=substr($sql, 0, -1);
          $sql.=" WHERE post_id=".$post_id;
         // echo $sql;
-        // die();
+         //die();
         if ($con->query($sql) === TRUE) {
             $response_message= 'Post edited successfully';
         }
@@ -146,5 +149,24 @@ $response['status_code']=$response_status_code;
 $response['response_message']= $response_message;
 //echo json_encode($response);
 //die();
-header('Location: /posts');
+if($response['status_code']==0 || $response['status_code']==2){
+    $_SESSION['responce']="<script>$(document).ready(function(){toast({
+        'text':'Post edited succesfully',
+        icon:'success',
+        position:'middle'
+    });
+});
+    </script>";
+}else{
+    $_SESSION['responce']="<script>$(document).ready(function(){toast({
+        icon:'error',
+        position:'middle',
+        text:data.response_message,
+        duration:3000
+    });
+});
+    </script>";
+}
+
+header('Location: '.$redirect);
 ?>

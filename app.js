@@ -14,7 +14,7 @@ map = new google.maps.Map(document.getElementById('map'), {
     createPost: true
     }});
 map.addListener('tilesloaded', ()=> {
-    if(urlData.post_id!=undefined && urlData.post_id!=null){
+    if(typeof urlData.post_id !== 'undefined' && urlData.post_id!=null){
     bounds.post_id=parseInt(urlData.post_id);
     }
     loadMarkers();
@@ -42,10 +42,10 @@ bounds={
     SWlat:map.getBounds().getSouthWest().lat(),
     SWlng:map.getBounds().getSouthWest().lng()
 };
-if(urlData.category!=undefined && urlData.category!=null){
+if(urlData.hasOwnProperty('category')==true && urlData.category!=null){
     bounds["category"]=urlData.category;
 }
-if(urlData.search_query!=undefined && urlData.search_query!=null){
+if(urlData.hasOwnProperty('search_query') && urlData.search_query!=null){
     bounds["search_query"]=urlData.search_query;
 }
 $.ajax({
@@ -62,6 +62,8 @@ dataType: "json" ,
         duration:3000
         });
         toast("markers");
+        //history.pushState(null,null,'/posts');
+         urlData={empty:''};
     }else{
         $.each(data,(index,report_data)=>{
             if(!markers[report_data.post_id]){
@@ -118,9 +120,8 @@ dataType: "json" ,
     }
 }).done(()=>{
     if(onceOpened==false){
-    if(urlData!= null &&urlData!= undefined &&urlData.length!=0){
+    if(urlData!= null &&urlData!= undefined ){
     myPos();
-    console.log('open from url');
     openReportFromUrl(urlData);
     }else{
     myPos(true);
@@ -324,7 +325,7 @@ function addCreatePostButton (map){
                   });
             createPostMarker.addListener('click',()=>{
               if(createPostInfoWindow==null||createPostInfoWindow==undefined){
-                var content='<form method="post" action="/new_post.php" id="post-form" class="container" style="max-width:400px" enctype="multipart/form-data" ><div class="row" style="margin-bottom:5px;"><h3 class="col-12">Make new post</h3></div><div class="row"><div class="col-12"><label>Title<span style="color:red;">*</span></label><input type="text" class="form-control" name="title"></input></div></div><div class="row"><div class="col-12"><label>Comment</label><textarea class="form-control"  name="comment"></textarea></div></div><div class="row"><div class="col-12"><label>Photo(optional)</label><input type="file" class="form-control" name="image"></input></div></div><div class="row"><div class="col-12"><label>Latitude<span style="color:red;">*</span></label><input type="text" name="latitude" class="form-control" value="'+createPostMarker.getPosition().lat()+'"></input></div></div><div class="row"><div class="col-12"><label>Longitude<span style="color:red;">*</span></label><input type="text" class="form-control" name="longitude" value="'+createPostMarker.getPosition().lng()+'"></input></div></div><div class="row"><div class="col-12"><label>Category</label><select name="category" class="form-control">';
+                var content='<form method="post" action="/new_post.php" id="post-form" class="container" style="max-width:400px; margin:20px;" enctype="multipart/form-data" ><div class="row" style="margin-bottom:5px;"><h3 class="col-12">Make new post</h3></div><div class="row"><div class="col-12"><label>Title<span style="color:red;">*</span></label><input type="text" class="form-control" name="title"></input></div></div><div class="row"><div class="col-12"><label>Comment</label><textarea class="form-control"  name="comment"></textarea></div></div><div class="row"><div class="col-12"><label>Photo(optional)</label><input type="file" class="form-control" name="image"></input></div></div><div class="row"><div class="col-12"><label>Latitude<span style="color:red;">*</span></label><input type="text" name="latitude" class="form-control" value="'+createPostMarker.getPosition().lat()+'"></input></div></div><div class="row"><div class="col-12"><label>Longitude<span style="color:red;">*</span></label><input type="text" class="form-control" name="longitude" value="'+createPostMarker.getPosition().lng()+'"></input></div></div><div class="row"><div class="col-12"><label>Category</label><select name="category" class="form-control">';
                 $.ajax({
                     type:'post',
                     url:'/get_categories.php',
@@ -580,7 +581,7 @@ toast({
 });*/
 //utility functions
 function openReportFromUrl(urlData){
-    if(urlData.post_id!=null && urlData.post_id!=undefined){
+    if(urlData.post_id!=null && typeof urlData.post_id !== 'undefined'){
       var repId=parseInt(urlData.post_id);
         if(markers[repId]!=null&&markers[repId]!=undefined)google.maps.event.trigger(markers[repId], 'click');
         else{
@@ -592,6 +593,7 @@ function openReportFromUrl(urlData){
             });
         }
     }
+     
 }
 function smoothZoom (map, toZoom, currentZoom,direction,pos,offset) {
     if(direction==undefined) direction='in';

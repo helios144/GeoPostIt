@@ -1,6 +1,7 @@
 <?php
 session_start();
-if($_POST['password']==$_POST['password_again']){
+if(strlen($_POST['password'])>0&& strlen($_POST['password_again'])&& strlen($_POST['user_name'])>0){
+if($_POST['password']==$_POST['password_again']&&strlen($_POST['password'])>0){
     $servername = "localhost";
     $username = "root";
     $password = "";
@@ -16,21 +17,22 @@ if($_POST['password']==$_POST['password_again']){
         $_SESSION['valid']=0;
         $_SESSION['invalid_text']="Vartotojo vardas toks jau yra";
         $con->close();
-        header('Location: register.php');
-        die();
+        header('Location: /register');
     }else{
         $password_hash=password_hash($_POST['password'], PASSWORD_DEFAULT);
         $sql="INSERT INTO users (user_name,password_hash,share_list) VALUES ('".$_POST['user_name']."','".$password_hash."',1)";
         $con->query($sql);
         $con->close();
-        header('Location: login.php');
-        die();
+        header('Location: /login');
     }
 }else{
     $_SESSION['valid']=0;
-    $_SESSION['invalid_text']="Slaptažodis nesutapo";
-    header('Location: register.php');
-    die();
+    $_SESSION['invalid_text']="Slaptažodis nesutapo arba neįvestas";
+    header('Location: /register');
 }
-
+}else{
+    $_SESSION['valid']=0;
+    $_SESSION['invalid_text']="Yra neįvestų laukų";
+    header('Location: /register');
+}
 ?>

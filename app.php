@@ -42,6 +42,12 @@
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ-Qxu9ZZ4ODH2UP8mDsls2olKychnmdc&callback=init"
     async defer></script>
       <script src="/app.js"></script>  
+      <?php
+        if(isset($_SESSION['response'])){
+          echo $_SESSION['response'];
+          unset($_SESSION['response']);
+        }
+      ?>
   </body>
 </html>
 

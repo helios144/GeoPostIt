@@ -8,8 +8,8 @@ $response=[];
 $imageName;
 $valid_image_types=['png'=>'image/png','jpg'=>'image/jpg','jpeg'=>'jpeg'];
 if(isset($_SESSION['user_data'])){
-    if($_POST['title']!=null&&$_POST['latitude']!=null&&$_POST['longitude']!=null&&$_POST['life-span']!=null&&$_POST['share-option']!=null){
-        if(isset($_FILES["image"])){
+    if($_POST['title']!=null&&$_POST['latitude']!=null&&$_POST['longitude']!=null&&$_POST['life-span']!=null&&$_POST['share_option']!=null){
+        if(isset($_FILES["image"])&&$_FILES["image"]['size']>0){
             if($_FILES["image"]["error"] == 0){
                 $file_extention=pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
                 if(array_key_exists($file_extention,$valid_image_types)){
@@ -56,11 +56,12 @@ if($response_status_code==0){
         //die("Connection failed: " . $con->connect_error);
         $response_status_code=7;
     }else{ 
-        $sql="INSERT INTO reports (user_id,share_option,title,comment,latitude,longitude,image,category,post_creation_date,delete_date) VAULES ('".$_SESSION['user_data']['user_name']."','".$_POST['share-option']."','".$_POST['title']."','".$_POST['comment']."','".$_POST['tatitude']."','".$_POST['longitude']."','".$imageName."','".$_POST['category']."','".$date."','".$deleteDate."')";
+        $sql="INSERT INTO posts (user_id,share_option,title,comment,latitude,longitude,image,category,post_creation_date,delete_date) VALUES ('".$_SESSION['user_data']['user_id']."','".$_POST['share_option']."','".$_POST['title']."','".$_POST['comment']."','".$_POST['latitude']."','".$_POST['longitude']."','".$imageName."','".$_POST['category']."','".$date."','".$deleteDate."')";
         if ($con->query($sql) === TRUE) {
             $response_message= 'Post successfully created';
         }
         else {
+           /* echo $sql ;die();*/
             $response_status_code=8;
             $response_message='Error: Failed to create post. Try again later' ;//'Error: '. $con->error;
         }
@@ -77,7 +78,7 @@ if($response_status_code==0){
         //die("Connection failed: " . $con->connect_error);
         $response_status_code=7;
     }else{ 
-        $sql="INSERT INTO reports (user_id,share_option,title,comment,latitude,longitude,post_creation_date,delete_date) VALUES ('".$_SESSION['user_data']['user_id']."','".$_POST['share-option']."','".$_POST['title']."','".$_POST['comment']."','".$_POST['latitude']."','".$_POST['longitude']."','".$date."','".$deleteDate."')";
+        $sql="INSERT INTO posts (user_id,share_option,title,comment,latitude,longitude,post_creation_date,delete_date) VALUES ('".$_SESSION['user_data']['user_id']."','".$_POST['share_option']."','".$_POST['title']."','".$_POST['comment']."','".$_POST['latitude']."','".$_POST['longitude']."','".$date."','".$deleteDate."')";
         /*echo $sql;
         die();*/
         //mysqli_query($con, $sql);
@@ -118,7 +119,52 @@ if($response_status_code==0){
 }
 $response['status_code']=$response_status_code;
 $response['response_message']= $response_message;
-echo json_encode($response);
+//echo $response['status_code'];
+//$response['response_message'];
+//die();
+//echo json_encode($response);
+if($response['status_code']==0 ||$response['status_code']==2){
+    $_SESSION['response']="<script> $(document).ready(function(){
+        toast({
+            text:'".$response['response_message']."',
+            icon:'success',
+            position:'middle'
+        });
+    });</script>";
+}else if($response['status_code']==1 ||$response['status_code']==3 ||$response['status_code']==4 ||$response['status_code']==5 ||$response['status_code']==6){
+    $_SESSION['response']="<script> $(document).ready(function(){
+        toast({
+            text:'".$response['response_message']."',
+            icon:'warning',
+            duration:3000,
+            position:'middle'
+        });
+    });</script>";
+}else if($response['status_code']==9){
+    $_SESSION['response']="<script> $(document).ready(function(){
+        toast({
+            text:'".$response['response_message']."',
+            icon:'info',
+            duration:3000,
+            position:'middle'
+        });
+
+        $('.highlight').addClass('highlight-anim');
+    setTimeout(()=>{ $('.highlight').removeClass('highlight-anim');},3000);
+    });</script>";
+    
+}
+else{
+    $_SESSION['response']="<script> $(document).ready(function(){
+        toast({
+            text:'Error occured. Try again',
+            icon:'error',
+            duration:3000,
+            position:'middle'
+        });
+    });</script>";
+}
+$_SESSION['response']="<script> $(document).ready(function(){});</script>";
 header('Location: /posts');
 //die();
 ?>

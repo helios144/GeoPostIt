@@ -18,21 +18,21 @@ if($user_data){
         $user_data=mysqli_fetch_all($user_data,MYSQLI_ASSOC);
         $_SESSION['user_data']=$user_data[0];
         echo $_SESSION['user_data']['user_name'];
-        header('Location: index.php');
+        header('Location: /');
         die();
     } 
     else{
         $_SESSION['valid']=0;
         $_SESSION['invalid_text']="Slaptažodis neteisingas";
         echo $_SESSION['invalid_text'];
-        header('Location: login.php');
+        header('Location: /login');
         die();
     } 
 }else{
     $_SESSION['valid']=0;
     $_SESSION['invalid_text']="Varotojo vardas neteisingas";
     echo $_SESSION['invalid_text'];
-    header('Location: login.php');
+    header('Location: /login');
     die();
 }
 

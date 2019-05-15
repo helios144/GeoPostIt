@@ -36,13 +36,13 @@
                   $cats=mysqli_query($con, $sql);
                   $cats=mysqli_fetch_all($cats,MYSQLI_ASSOC);
                   foreach($cats as $val){
-                    echo '<option data-icon="<i class=\''.$val['icon'].'\'></i>" value="'.$val['category'].'">'.ucwords($val['category']).'</option>';
+                    echo '<option value="'.$val['category'].'">'.ucwords($val['category']).'</option>';
                   }
               ?>
             </select>
           </div>
           
-          <button type="submit" class="btn btn-default">Search</button>
+          <button type="submit" class="btn btn-default form-control">Search</button>
         </form>
       <ul class="nav navbar-nav navbar-right">
         <?php

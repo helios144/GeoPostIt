@@ -43,6 +43,7 @@ if(isset($_POST['post_id'])){
                                 <div class='row'>
                                     <div class='col-12'>
                                     <input type='hidden' name='post_id' value='".$post_data[0]['post_id']."'/>
+                                    <input type='hidden' name='redirect' value='/post/".$post_data[0]['post_id']."'></input>
                                         <label>Title</label>
                                         <input type='text' class='form-control' name='title' value='".$post_data[0]['title']."'></input>
                                     </div>
@@ -88,7 +89,7 @@ if(isset($_POST['post_id'])){
                                                 <option value='7' ".(($post_data[0]['date']==7)?"selected":"").">1 Week</option>
                                                 <option value='30' ".(($post_data[0]['date']==30)?"selected":"").">1 Month</option>
                                                 <option value='365' ".(($post_data[0]['date']==365)?"selected":"").">1 Year</option>
-                                                <option value='0' ".(($post_data[0]['date']>10000)?"selected":"").">Never</option>
+                                                <option value='0' ".(($post_data[0]['date']>1000)?"selected":"").">Never</option>
                                             </select>
                                         </div>
                                     </div>
@@ -114,6 +115,8 @@ else{
     $response_message='Error: no data';
 }
 if( $response_status_code==0){
+   /* echo $post_data[0]['date'];
+    die();*/
     echo $content;
 }else{
 $response['status_code']=$response_status_code;
