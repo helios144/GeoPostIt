@@ -197,17 +197,17 @@ function addYourLocationButton (map){
     secondChild.style.backgroundRepeat = 'no-repeat';
     firstChild.appendChild(secondChild);
 
-    google.maps.event.addListener(map, 'center_changed', function () {
+    var changeicon=google.maps.event.addListener(map, 'center_changed', function () {
         secondChild.style['background-position'] = '0 0';
     });
 
     firstChild.addEventListener('click', function () {
-      toast({
+      /*toast({
         text:"My location",
         icon:'info',
         position:'middle',
         duration:1000
-      });
+      });*/
         var imgX = 0,
             animationInterval = setInterval(function () {
                 imgX = -imgX - 18 ;

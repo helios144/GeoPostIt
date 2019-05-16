@@ -39,7 +39,7 @@ if(isset($_POST)&&count($_POST)>0){
 
                 if($row['image']!=null) $new_data[$key]['content'].='<div class="row" style="margin:10px;"><img class="col-12" src="/posts_images/'.$row['image'].'" style="max-width:291px;height:auto;"></img></div>';
                 $new_data[$key]['content'].='<div class="row" style="margin:10px;"><div class="col-12">
-                <button class="btn fa fa-copy" onClick="copyURLToClipBoard()"></button>
+                <button class="btn glyphicon glyphicon-copy" onClick="copyURLToClipBoard()"></button>
                 <button type="button" class="btn btn-default" onClick="navigate(\'https://www.google.com/maps/search/?api=1&query='.$row['latitude'].','.$row['longitude'].'\')">Navigate</button></div></div>';
                 if(isset($_SESSION['user_data']['user_id'])){
                     if($_SESSION['user_data']['user_id']==$row['user_id']){
@@ -63,7 +63,7 @@ if(isset($_POST)&&count($_POST)>0){
                 <div class="row" style="margin:10px;"><p class="col-12">'.$row['comment'].'</p></div>';
                 if($row['image']!=null) $new_data[$key]['content'].='<div class="row" style="margin:10px;"><img class="col-12" src="/posts_images/'.$row['image'].'" style="max-width:291px;height:auto;"></img></div>';
                 $new_data[$key]['content'].='<div class="row" style="margin:10px;"><div class="col-12">
-                <button class="btn fa fa-copy" onClick="copyURLToClipBoard()"></button>
+                <button class="btn glyphicon glyphicon-copy" onClick="copyURLToClipBoard()"></button>
                 <button type="button" class="btn btn-default" onClick="navigate(\'https://www.google.com/maps/search/?api=1&query='.$row['latitude'].','.$row['longitude'].'\')">Navigate</button></div></div>';
             }
         }

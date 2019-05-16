@@ -8,8 +8,7 @@
     <link rel="icon" type="image/x-icon" href="/faviconn.ico" />
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <script src="/jquery.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
