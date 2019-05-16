@@ -1,9 +1,11 @@
-1) jei importinama per komandinę eilutę reikia suvesti
+﻿1) jei importinama per komandinę eilutę reikia suvesti
 mysql -u username -p database_name < geopostit.sql
 arba
 mysql -u username -p database_name < geopostit.xml
 
 jeigu per phpmyadmin nueiti į import paririnkti failą ir paspausti geopostit
+mysqladmin arba mysql consoleje paleistkite comandą išsaugotą autodeleteevent.sql
+
 2)faile /apache/conf/httpd.conf jeigu užkomentuota atkomentuoti mod_rewrite
 3)faile /apache/conf/extra/httpd-vhosts.conf pridėti toliau einantį tekstą 
 <VirtualHost *:80>
@@ -36,5 +38,5 @@ localhost pasikesti į savo svetaines pavadinimą
 5)į direktoriją apache/conf įsikelti ssl sertifikatą ir raktą. atitinkamai pagal pavadinimus pakoreguoti virtual host dalį
 6)daile /php/php.ini jeigu reikia pasikeisti maksimalų failų ikelimo dydį upload_max_filesize = 2M ir  post_max_size = 2M /post_max_size turi būti didesni arba lygus upload_max_filesize dydžiui
 7) į direktoriją /htdocs persikelti /geopostit direktoriją
-7)faile database_credentials.php pasikeisti prisijungimo duomenis 
+8)faile database_credentials.php pasikeisti prisijungimo duomenis 
 

@@ -1,4 +1,4 @@
-var map,markers=[],info,myLocationMarker,zoomLevel=15,onceOpened=false;
+var map,markers=[],info,myLocationMarker,zoomLevel=15,zoomLevelClicked=15,zoomLevelAfter=15,onceOpened=false;
 var infowindows=[],createPostMarker;
 var createPostInfoWindow;
 var bounds={};
@@ -28,6 +28,9 @@ map.addListener('tilesloaded', ()=> {
 });
     addYourLocationButton(map);
     addCreatePostButton(map);
+    google.maps.event.addListener(map, 'zoom_changed', (event)=>{
+        zoomLevelClicked=map.getZoom();
+    });
 }
 function loadMarkers(){
 toast({
@@ -73,7 +76,7 @@ dataType: "json" ,
                 }
                 if(report_data.post_id==urlData.post_id) map.setCenter(reportPos);
                 var m=new google.maps.Marker({
-                icon:{url:'/report-marker.png',
+                icon:{url:'/report-marker2.png',
                 scaledSize: new google.maps.Size(30, 30),
                 origin: new google.maps.Point(0, 0),
                 anchor: new google.maps.Point(15, 15)
@@ -83,10 +86,10 @@ dataType: "json" ,
                 title: report_data.title,
                 position:reportPos
                 });
-                google.maps.event.addListener(m,'click',()=>{
+                /*google.maps.event.addListener(m,'click',()=>{
                 // history.pushState(null,null,"?title="+report_data.title.replace(' ','_')+"&post_id="+report_data.post_id);
-                history.pushState(null,report_data.title,"/post/"+report_data.post_id+"/"+report_data.title.replace(' ','_'));
-                });
+               
+                });*/
                 //markers.push(m);
                 
                 //var content='<div class="row" style="margin:5px;"><h1 class="col-12">'+report_data.title+'</h1><p class="col-12">'+report_data.info+'</p><img class="col-12" src="/report_images/'+report_data.image+'" style="width:300px;height:auto;"></img><div class="col-12"><button class="btn btn-success" >Koreguoti</button><button class="btn btn-default" >Dalintis</button><button class="btn btn-danger" value="'+report_data.id+'">Trinti</button><button class="btn fa fa-copy" onClick="copyURLToClipBoard()"></button><button type="button" class="btn btn-default" onClick="navigate(\'https://www.google.com/maps/search/?api=1&query='+reportPos.lat+','+reportPos.lng+'\')">Navigate</button></div></div>';
@@ -95,15 +98,17 @@ dataType: "json" ,
                 content:content
                 });
                 google.maps.event.addListener(i,'closeclick',()=>{
-                    if(map.getZoom()>zoomLevel){
+                    if(zoomLevelAfter==map.getZoom()){
                     smoothZoom(map,zoomLevel,map.getZoom(),'out',reportPos,0.000285);
                     }
                 });
                 m.addListener('click',()=>{
+                history.pushState(null,report_data.title,"/post/"+report_data.post_id+"/"+report_data.title.replace(' ','_'));
                 i.open(map,m);
                 zoomLevel=map.getZoom();
                 const tmpPos=reportPos;
                 smoothZoom(map,20,map.getZoom(),'in',tmpPos,0.000285);
+               // zoomLevelClicked=map.getZoom();
                 });
                 infowindows[report_data.post_id]=i;
                 markers[report_data.post_id]=m;
@@ -233,7 +238,7 @@ function addYourLocationButton (map){
               position:latlng
             });
             myLocationMarker.addListener('click',()=>{
-              zoomLevel=map.getZoom();
+            //  zoomLevel=map.getZoom();
               //map.setCenter(myPos);
               smoothZoom(map,20,map.getZoom(),'in',myPos);
               //map.setCenter(myPos);
@@ -251,7 +256,7 @@ function addYourLocationButton (map){
               position:latlng
             });
             myLocationMarker.addListener('click',()=>{
-              zoomLevel=map.getZoom();
+             // zoomLevel=map.getZoom();
               //map.setCenter(myPos);
               smoothZoom(map,20,map.getZoom(),'in',myPos);
               //map.setCenter(myPos);
@@ -320,6 +325,7 @@ function addCreatePostButton (map){
                createPostMarker=new google.maps.Marker({
                     id:'createPostMarker',
                     map:map,
+                    icon:'/select_post_loc_pin.png',
                     zIndex:99999999,
                     draggable:false,
                     position:centerPos
@@ -460,42 +466,44 @@ $.ajax({
 });
 });*/
 $(document).on('click','.btn-delete-post',(e)=>{
-    var post_id=$(e.target).val();
-    toast({
-        loadingSpinner:true,
-        autoRemove:false,
-        id:'delete-load'
-    });
-    $.ajax({
-        type:'post',
-        dataType:'json',
-        url:"/delete_post.php",
-        data:{post_id:post_id},
-        success:(data)=>{
-            if(data.status_code==0){
+    if(confirm('Do you really want to delete post?')){
+        var post_id=$(e.target).val();
+        toast({
+            loadingSpinner:true,
+            autoRemove:false,
+            id:'delete-load'
+        });
+        $.ajax({
+            type:'post',
+            dataType:'json',
+            url:"/delete_post.php",
+            data:{post_id:post_id},
+            success:(data)=>{
+                if(data.status_code==0){
+                    toast('delete-load');
+                    markers[post_id].setMap(null);
+                    markers[post_id]=null;
+                    toast({
+                        icon:'success',
+                        text:data.response_message
+                    });
+            }else{
                 toast('delete-load');
-                markers[post_id].setMap(null);
-                markers[post_id]=null;
                 toast({
-                    icon:'success',
+                    icon:'error',
                     text:data.response_message
                 });
-        }else{
-            toast('delete-load');
-            toast({
-                icon:'error',
-                text:data.response_message
-            });
-        }
-        },
-        error:()=>{
-            toast('delete-load');
-            toast({
-                icon:'error',
-                text:'Error occured'
-            });
-        }
-    });
+            }
+            },
+            error:()=>{
+                toast('delete-load');
+                toast({
+                    icon:'error',
+                    text:'Error occured'
+                });
+            }
+        });
+    }
 });
 
 $(document).on('click','.btn-edit-post',(e)=>{
@@ -603,6 +611,7 @@ function smoothZoom (map, toZoom, currentZoom,direction,pos,offset) {
       if ((currentZoom >= toZoom &&direction=='in')||(currentZoom <= toZoom &&direction=='out')) {
           if(pos!=undefined &&pos!=null){
             map.setCenter({lat:pos.lat+parseFloat(offset),lng:pos.lng});//0.000255
+            zoomLevelAfter=map.getZoom();
           }
           return;
       }
@@ -610,10 +619,12 @@ function smoothZoom (map, toZoom, currentZoom,direction,pos,offset) {
           zoomListener = google.maps.event.addListener(map, 'zoom_changed', (event)=>{
               google.maps.event.removeListener(zoomListener);
               smoothZoom(map, toZoom,(direction=='in')?currentZoom + 1:currentZoom-1,direction,pos,offset);
+              zoomLevelAfter=map.getZoom();
           });
           setTimeout(()=>{map.setZoom(currentZoom)}, 80);
           if(pos!=undefined &&pos!=null){
             map.setCenter({lat:pos.lat+parseFloat(offset),lng:pos.lng});//0.000255
+            zoomLevelAfter=map.getZoom();
           }
       }
     }
