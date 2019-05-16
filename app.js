@@ -76,7 +76,7 @@ dataType: "json" ,
                 }
                 if(report_data.post_id==urlData.post_id) map.setCenter(reportPos);
                 var m=new google.maps.Marker({
-                icon:{url:'/report-marker2.png',
+                icon:{url:'/report-markernew.png',
                 scaledSize: new google.maps.Size(30, 30),
                 origin: new google.maps.Point(0, 0),
                 anchor: new google.maps.Point(15, 15)

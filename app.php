@@ -31,8 +31,10 @@
     ?>
       <div id="street-view"></div>
       <div id="map"></div>
+      <script src="/markerClusterer.js"></script>
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ-Qxu9ZZ4ODH2UP8mDsls2olKychnmdc&callback=init"
     async defer></script>
+
       <script src="/app.js"></script>  
       <?php
         if(isset($_SESSION['response'])){
