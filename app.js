@@ -10,6 +10,8 @@ map = new google.maps.Map(document.getElementById('map'), {
     controls: {
     scrollwheel: true,
     zoom: true,
+    mapTypeControl:true,
+    streetViewControl:true,
     myLocationButton : true ,
     createPost: true
     }});

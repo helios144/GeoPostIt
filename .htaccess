@@ -9,6 +9,7 @@ RewriteEngine  on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^post/([a-zA-Z0-9_-]+)|(/([a-zA-Z0-9_-]+))$ app.php?post_id=$1
+RewriteRule ^post/$ app.php
 RewriteRule ^posts$ app.php
 RewriteRule ^login$ login.php
 RewriteRule ^register$ register.php
